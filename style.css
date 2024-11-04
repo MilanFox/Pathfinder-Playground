@@ -1,0 +1,69 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  font-family: system-ui;
+}
+
+canvas {
+  cursor: pointer;
+}
+
+#menu {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  gap: calc(var(--cell-size) / 3);
+  list-style: none;
+  left: var(--cell-size);
+  bottom: var(--cell-size);
+  background: var(--color-light);
+  border-radius: 999px;
+  padding: 5px;
+  border: 2px solid var(--color-dark);
+}
+
+label {
+  height: var(--cell-size);
+  width: var(--cell-size);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip {
+  opacity: 0;
+  position: absolute;
+  width: max-content;
+  color: #000;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  left: 150%;
+  background: var(--color-white);
+  box-shadow: 0 3px 10px rgb(var(--color-white) / 0.5);
+  pointer-events: none;
+  transition: all ease-in-out 0.15s;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+label:has(input:checked) {
+  background: var(--color-dark);
+  color: var(--color-white);
+}
+
+label:hover > .tooltip {
+  opacity: 100;
+}
