@@ -1,3 +1,5 @@
+/* GENERAL */
+
 *, *:before, *:after {
   box-sizing: border-box;
 }
@@ -12,6 +14,8 @@ body {
 canvas {
   cursor: pointer;
 }
+
+/* MENU */
 
 #menu {
   position: absolute;
@@ -66,4 +70,17 @@ label:has(input:checked) {
 
 label:hover > .tooltip {
   opacity: 100;
+}
+
+/* INFO PILL */
+
+#info {
+  position: absolute;
+  bottom: var(--cell-size);
+  left: 0;
+  right: 0;
+  width: fit-content;
+  margin-inline: auto;
+  user-select: none;
+  background: white;
 }

@@ -4,14 +4,21 @@ import { grid } from './script/store/grid.js';
 import { eventHandler, events } from './script/utils/events.js';
 import { setCssStyles, styles } from './script/store/style.js';
 import { findPath } from './script/utils/pathfinder.js';
+import { measurePerformance } from './script/utils/performance.js';
+import { updateInfo } from './script/utils/info.js';
 
 let isDragging = false;
 let draggedCells = new Set();
 
 const drawCanvas = () => {
   drawGridLines();
-  const path = findPath(grid);
-  if (path && path.length > 2) drawPath({ path, color: styles.colorMid });
+
+  const [path, performance] = measurePerformance(() => findPath(grid));
+  if (path && path.length > 2) {
+    drawPath({ path, color: styles.colorMid });
+    updateInfo(`The path took ${performance}ms to calculate.`);
+  }
+
   for (const token of grid.allTokens) drawToken(token);
   drawWeights();
 };
