@@ -18,8 +18,8 @@ const drawCanvas = () => {
 
 const applyBrushAction = (event) => {
   if (event.target !== canvas) return;
-  const cell = findClickedCell(event);
-
+  const posEvent = event.touches ? event.touches[0] : event;
+  const cell = findClickedCell(posEvent);
   const cellId = `${cell.x},${cell.y}`;
   if (!draggedCells.has(cellId)) {
     brush.data[brush.current].action(cell);
@@ -27,18 +27,18 @@ const applyBrushAction = (event) => {
   }
 };
 
-const handleMouseDown = (event) => {
+const handleStart = (event) => {
   if (event.target !== canvas) return;
   isDragging = true;
   draggedCells.clear();
   applyBrushAction(event);
 };
 
-const handleMouseMove = (event) => {
+const handleMove = (event) => {
   if (isDragging) applyBrushAction(event);
 };
 
-const handleMouseUp = () => {
+const handleEnd = () => {
   isDragging = false;
   draggedCells.clear();
 };
@@ -48,7 +48,11 @@ buildBrushMenu();
 drawCanvas();
 
 window.addEventListener('resize', drawCanvas);
-window.addEventListener('mousedown', handleMouseDown);
-window.addEventListener('mousemove', handleMouseMove);
-window.addEventListener('mouseup', handleMouseUp);
+window.addEventListener('mousedown', handleStart);
+window.addEventListener('mousemove', handleMove);
+window.addEventListener('mouseup', handleEnd);
+window.addEventListener('touchstart', handleStart);
+window.addEventListener('touchmove', handleMove);
+window.addEventListener('touchend', handleEnd);
+
 eventHandler.on(events.DATA_CHANGED, drawCanvas);
