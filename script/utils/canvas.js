@@ -57,7 +57,7 @@ export const drawWeights = () => {
         case 0:
         case undefined:
           continue;
-        case Infinity:
+        case 'Infinity':
           drawRect({ ctx, pos, color: styles.colorDark });
           continue;
         default:

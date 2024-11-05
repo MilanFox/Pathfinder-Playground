@@ -23,12 +23,42 @@ export const setWeight = (value, pos) => {
 
 export const brush = {
   data: {
-    token_a: { value: 'token_a', label: 'A', action: (pos) => setToken('a', pos), tooltip: 'Set Token A' },
-    token_b: { value: 'token_b', label: 'B', action: (pos) => setToken('b', pos), tooltip: 'Set Token B'  },
-    increase: { value: 'increase', label: '+', action: (pos) => offsetWeight(1, pos), tooltip: 'Increase weight of cell'  },
-    decrease: { value: 'decrease', label: '-', action: (pos) => offsetWeight(-1, pos), tooltip: 'Decrease weight of cell' },
-    block: { value: 'block', label: '✗', action: (pos) => setWeight(Infinity, pos), tooltip: 'Block cell entirely' },
-    clear: { value: 'clear', label: '✓', action: (pos) => setWeight(0, pos), tooltip: 'Reset cell' },
+    token_a: {
+      value: 'token_a',
+      label: 'A',
+      action: (pos) => setToken('a', pos),
+      tooltip: 'Set Token A',
+    },
+    token_b: {
+      value: 'token_b',
+      label: 'B',
+      action: (pos) => setToken('b', pos),
+      tooltip: 'Set Token B',
+    },
+    increase: {
+      value: 'increase',
+      label: '+',
+      action: (pos) => offsetWeight(1, pos),
+      tooltip: 'Increase weight of cell',
+    },
+    decrease: {
+      value: 'decrease',
+      label: '-',
+      action: (pos) => offsetWeight(-1, pos),
+      tooltip: 'Decrease weight of cell',
+    },
+    block: {
+      value: 'block',
+      label: '✗',
+      action: (pos) => setWeight('Infinity', pos),
+      tooltip: 'Block cell entirely',
+    },
+    clear: {
+      value: 'clear',
+      label: '✓',
+      action: (pos) => setWeight(0, pos),
+      tooltip: 'Reset cell',
+    },
   },
   get current() {
     return document.querySelector('input[name="brush"]:checked').value;
@@ -50,11 +80,10 @@ export const buildBrushMenu = () => {
     menuItem.type = 'radio';
     menuItemLabel.appendChild(menuItem);
 
-
-    const tooltip = document.createElement('div')
-    tooltip.innerText = brush.tooltip
-    tooltip.classList.add('tooltip')
-    menuItemLabel.appendChild(tooltip)
+    const tooltip = document.createElement('div');
+    tooltip.innerText = brush.tooltip;
+    tooltip.classList.add('tooltip');
+    menuItemLabel.appendChild(tooltip);
 
     return menuItemLabel;
   };

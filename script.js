@@ -6,11 +6,12 @@ import { setCssStyles, styles } from './script/store/style.js';
 import { findPath } from './script/utils/pathfinder.js';
 import { measurePerformance } from './script/utils/performance.js';
 import { updateInfo } from './script/utils/info.js';
+import { tryRestoreFromQuery, updateUrlQuery } from './script/utils/deeplink.js';
 
 let isDragging = false;
 let draggedCells = new Set();
 
-const drawCanvas = () => {
+const updateFrame = () => {
   drawGridLines();
 
   const [path, performance] = measurePerformance(() => findPath(grid));
@@ -21,6 +22,8 @@ const drawCanvas = () => {
 
   for (const token of grid.allTokens) drawToken(token);
   drawWeights();
+
+  updateUrlQuery();
 };
 
 const applyBrushAction = (event) => {
@@ -50,16 +53,21 @@ const handleEnd = () => {
   draggedCells.clear();
 };
 
-setCssStyles();
-buildBrushMenu();
-drawCanvas();
+const initiateState = () => {
+  window.addEventListener('resize', updateFrame);
+  window.addEventListener('mousedown', handleStart);
+  window.addEventListener('mousemove', handleMove);
+  window.addEventListener('mouseup', handleEnd);
+  window.addEventListener('touchstart', handleStart);
+  window.addEventListener('touchmove', handleMove);
+  window.addEventListener('touchend', handleEnd);
 
-window.addEventListener('resize', drawCanvas);
-window.addEventListener('mousedown', handleStart);
-window.addEventListener('mousemove', handleMove);
-window.addEventListener('mouseup', handleEnd);
-window.addEventListener('touchstart', handleStart);
-window.addEventListener('touchmove', handleMove);
-window.addEventListener('touchend', handleEnd);
+  eventHandler.on(events.DATA_CHANGED, updateFrame);
 
-eventHandler.on(events.DATA_CHANGED, drawCanvas);
+  setCssStyles();
+  buildBrushMenu();
+  tryRestoreFromQuery();
+  updateFrame();
+};
+
+initiateState();

@@ -41,7 +41,7 @@ export const findPath = (grid) => {
       if (x < 0 || y < 0) continue;
 
       const cellWeight = grid.getWeight(neighbor);
-      if (cellWeight === Infinity) continue;
+      if (cellWeight === 'Infinity') continue;
 
       const neighborKey = `${x},${y}`;
       if (visited.has(neighborKey)) continue;
