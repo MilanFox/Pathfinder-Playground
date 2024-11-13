@@ -38,7 +38,7 @@ const applyBrushAction = (event) => {
 };
 
 const handleStart = (event) => {
-  if (event.target !== canvas) return;
+  if (event.target !== canvas || event.button !== 0) return;
   isDragging = true;
   draggedCells.clear();
   applyBrushAction(event);
